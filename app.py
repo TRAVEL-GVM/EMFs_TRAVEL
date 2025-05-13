@@ -13,7 +13,7 @@ st.set_page_config(
 st.title("Monetary & Financial Statistics")
 
 
-url = 'https://raw.githubusercontent.com/TRAVEL-GVM/EMFs/main/Data/emfs.csv'
+url = 'https://raw.githubusercontent.com/TRAVEL-GVM/Data/main/Data/EMFs/emfs.csv'
 df = pd.read_csv(url).drop(columns="Unnamed: 0")
 df['Date'] = pd.to_datetime(df['Date'])  
 
@@ -98,20 +98,18 @@ else:
         st.plotly_chart(fig, use_container_width=True)
 
 
-col3, col4, col5 = st.columns([0.2, 0.6, 0.2])
 
-with col4:
-    with st.expander("Correlation analysis", expanded=False):
-        st.warning("Correlation analysis is only available for the selected time range above.")
-        
-        # Filtra apenas as colunas numéricas para a matriz de correlação
-        numeric_columns = filtered_df[value_columns].select_dtypes(include=[np.number])
+with st.expander("Correlation analysis", expanded=False):
+    st.warning("Correlation analysis is only available for the selected time range above.")
+    
+    # Filtra apenas as colunas numéricas para a matriz de correlação
+    numeric_columns = filtered_df[value_columns].select_dtypes(include=[np.number])
 
-        if numeric_columns.empty:
-            st.error("No numeric columns available for correlation analysis.")
-        else:
-            # Gera o gráfico de correlação com Plotly
-            fig = plot_correlation_matrix(numeric_columns)
+    if numeric_columns.empty:
+        st.error("No numeric columns available for correlation analysis.")
+    else:
+        # Gera o gráfico de correlação com Plotly
+        fig = plot_correlation_matrix(numeric_columns)
 
-            # Exibe o gráfico no Streamlit
-            st.plotly_chart(fig, use_container_width=True)
+        # Exibe o gráfico no Streamlit
+        st.plotly_chart(fig, use_container_width=True)
